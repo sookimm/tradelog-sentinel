@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>TradeLog Sentinel Dashboard</title>
+</head>
+
+<body>
+
+<h1>TradeLog Sentinel Dashboard</h1>
+
+<h2>Risk Summary</h2>
+
+<p>
+    Risk Level:
+    <strong th:text="${risk.riskLevel}"></strong>
+</p>
+
+<p>
+    Total Severity Score:
+    <strong th:text="${risk.totalSeverityScore}"></strong>
+</p>
+
+<hr>
+
+<h2>Log Summary</h2>
+
+<ul>
+    <li>
+        INFO:
+        <span th:text="${summary['INFO']}"></span>
+    </li>
+
+    <li>
+        WARNING:
+        <span th:text="${summary['WARNING']}"></span>
+    </li>
+
+    <li>
+        ERROR:
+        <span th:text="${summary['ERROR']}"></span>
+    </li>
+
+    <li>
+        CRITICAL:
+        <span th:text="${summary['CRITICAL']}"></span>
+    </li>
+</ul>
+
+<hr>
+
+<h2>Suspicious Alerts</h2>
+
+<ul>
+    <li th:each="alert : ${alerts}">
+        <strong th:text="${alert.level}"></strong>
+        -
+        <span th:text="${alert.message}"></span>
+    </li>
+</ul>
+
+<hr>
+
+<h2>Recent Logs</h2>
+
+<table border="1">
+
+    <tr>
+        <th>ID</th>
+        <th>Level</th>
+        <th>Message</th>
+        <th>Timestamp</th>
+    </tr>
+
+    <tr th:each="log : ${logs}">
+        <td th:text="${log.id}"></td>
+        <td th:text="${log.level}"></td>
+        <td th:text="${log.message}"></td>
+        <td th:text="${log.timestamp}"></td>
+    </tr>
+
+</table>
+
+</body>
+</html>
