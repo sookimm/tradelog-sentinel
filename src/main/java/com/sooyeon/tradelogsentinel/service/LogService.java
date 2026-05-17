@@ -39,19 +39,46 @@ public class LogService {
     }
 
     public RiskSummaryResponse getRiskSummary() {
-        long errorCount = logEntryRepository.countByLevel("ERROR");
+        List<LogEntry> logs = logEntryRepository.findAll();
+
+        int totalSeverityScore = 0;
+
+        for (LogEntry log : logs) {
+            String level = log.getLevel();
+
+            if (level == null) {
+                continue;
+            }
+
+            switch (level.toUpperCase()) {
+                case "INFO":
+                    totalSeverityScore += 1;
+                    break;
+                case "WARNING":
+                    totalSeverityScore += 2;
+                    break;
+                case "ERROR":
+                    totalSeverityScore += 3;
+                    break;
+                case "CRITICAL":
+                    totalSeverityScore += 4;
+                    break;
+            }
+        }
 
         String riskLevel;
 
-        if (errorCount >= 3) {
+        if (totalSeverityScore >= 15) {
+            riskLevel = "CRITICAL";
+        } else if (totalSeverityScore >= 10) {
             riskLevel = "HIGH";
-        } else if (errorCount >= 1) {
+        } else if (totalSeverityScore >= 5) {
             riskLevel = "MEDIUM";
         } else {
             riskLevel = "LOW";
         }
 
-        return new RiskSummaryResponse(riskLevel, errorCount);
+        return new RiskSummaryResponse(riskLevel, totalSeverityScore);
     }
 
     public Map<String, Long> getLogSummary() {

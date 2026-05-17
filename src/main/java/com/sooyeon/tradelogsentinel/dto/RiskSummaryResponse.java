@@ -3,18 +3,18 @@ package com.sooyeon.tradelogsentinel.dto;
 public class RiskSummaryResponse {
 
     private String riskLevel;
-    private long errorCount;
+    private int totalSeverityScore;
 
-    public RiskSummaryResponse(String riskLevel, long errorCount) {
+    public RiskSummaryResponse(String riskLevel, int totalSeverityScore) {
         this.riskLevel = riskLevel;
-        this.errorCount = errorCount;
+        this.totalSeverityScore = totalSeverityScore;
     }
 
     public String getRiskLevel() {
         return riskLevel;
     }
 
-    public long getErrorCount() {
-        return errorCount;
+    public int getTotalSeverityScore() {
+        return totalSeverityScore;
     }
 }
