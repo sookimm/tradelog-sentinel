@@ -71,4 +71,9 @@ public class LogController {
 
         return summary;
     }
+
+    @GetMapping("/alerts")
+    public List<LogEntry> getSuspiciousLogs() {
+        return logEntryRepository.findByMessageContainingIgnoreCaseOrderByTimestampDesc("unauthorized");
+    }
 }

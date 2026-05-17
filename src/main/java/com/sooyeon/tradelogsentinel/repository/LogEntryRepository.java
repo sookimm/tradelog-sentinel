@@ -14,4 +14,6 @@ public interface LogEntryRepository extends JpaRepository<LogEntry, Long> {
 
     @Query("SELECT l FROM LogEntry l ORDER BY l.timestamp DESC NULLS LAST")
     List<LogEntry> findAllByOrderByTimestampDesc();
+
+    List<LogEntry> findByMessageContainingIgnoreCaseOrderByTimestampDesc(String keyword);
 }
