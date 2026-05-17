@@ -11,6 +11,11 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.springframework.web.multipart.MultipartFile;
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+import java.util.ArrayList;
+
 @Service
 public class LogService {
 
@@ -133,5 +138,30 @@ public class LogService {
                                 )
                 )
                 .toList();
+    }
+
+    public List<LogEntry> uploadLogs(MultipartFile file) throws Exception {
+
+        List<LogEntry> savedLogs = new ArrayList<>();
+
+        try (BufferedReader reader = new BufferedReader(
+                new InputStreamReader(file.getInputStream())
+        )) {
+            String line;
+
+            while ((line = reader.readLine()) != null) {
+                String[] parts = line.split(",", 2);
+
+                if (parts.length == 2) {
+                    String level = parts[0].trim();
+                    String message = parts[1].trim();
+
+                    LogEntry log = new LogEntry(level, message);
+                    savedLogs.add(logEntryRepository.save(log));
+                }
+            }
+        }
+
+        return savedLogs;
     }
 }

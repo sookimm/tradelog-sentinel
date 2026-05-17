@@ -5,6 +5,7 @@ import com.sooyeon.tradelogsentinel.dto.RiskSummaryResponse;
 import com.sooyeon.tradelogsentinel.entity.LogEntry;
 import com.sooyeon.tradelogsentinel.service.LogService;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 import java.util.Map;
@@ -52,5 +53,10 @@ public class LogController {
     @GetMapping("/recent-alerts")
     public List<LogEntry> getRecentAlerts() {
         return logService.getRecentAlerts();
+    }
+
+    @PostMapping("/upload")
+    public List<LogEntry> uploadLogs(@RequestParam("file") MultipartFile file) throws Exception {
+        return logService.uploadLogs(file);
     }
 }

@@ -1,0 +1,5 @@
+ERROR,Database connection failed
+WARNING,Response time exceeded threshold
+CRITICAL,Unauthorized trading request detected
+INFO,Daily batch completed successfully
+ERROR,Failed order validation
