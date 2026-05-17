@@ -48,4 +48,9 @@ public class LogController {
     public Map<String, Integer> getSeverityScore() {
         return logService.getSeverityScore();
     }
+
+    @GetMapping("/recent-alerts")
+    public List<LogEntry> getRecentAlerts() {
+        return logService.getRecentAlerts();
+    }
 }

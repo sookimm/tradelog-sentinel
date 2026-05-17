@@ -6,6 +6,7 @@ import com.sooyeon.tradelogsentinel.entity.LogEntry;
 import com.sooyeon.tradelogsentinel.repository.LogEntryRepository;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -104,5 +105,33 @@ public class LogService {
         response.put("totalSeverityScore", totalScore);
 
         return response;
+    }
+
+    public List<LogEntry> getRecentAlerts() {
+
+        List<String> keywords = List.of(
+                "unauthorized",
+                "failed",
+                "attack",
+                "breach",
+                "suspicious",
+                "timeout"
+        );
+
+        LocalDateTime oneHourAgo = LocalDateTime.now().minusHours(1);
+
+        return logEntryRepository.findAllByOrderByTimestampDesc()
+                .stream()
+                .filter(log ->
+                        log.getTimestamp() != null &&
+                                log.getTimestamp().isAfter(oneHourAgo)
+                )
+                .filter(log ->
+                        log.getMessage() != null &&
+                                keywords.stream().anyMatch(keyword ->
+                                        log.getMessage().toLowerCase().contains(keyword)
+                                )
+                )
+                .toList();
     }
 }
