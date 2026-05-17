@@ -1,12 +1,14 @@
 package com.sooyeon.tradelogsentinel.controller;
 
 import com.sooyeon.tradelogsentinel.dto.CreateLogRequest;
+import com.sooyeon.tradelogsentinel.dto.RiskSummaryResponse;
 import com.sooyeon.tradelogsentinel.entity.LogEntry;
 import com.sooyeon.tradelogsentinel.repository.LogEntryRepository;
 import org.springframework.web.bind.annotation.*;
-import com.sooyeon.tradelogsentinel.dto.RiskSummaryResponse;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/api/logs")
@@ -48,5 +50,25 @@ public class LogController {
         }
 
         return new RiskSummaryResponse(riskLevel, errorCount);
+    }
+
+    @GetMapping("/summary")
+    public Map<String, Long> getLogSummary() {
+
+        Map<String, Long> summary = new HashMap<>();
+
+        summary.put("INFO",
+                logEntryRepository.countByLevelIgnoreCase("INFO"));
+
+        summary.put("WARNING",
+                logEntryRepository.countByLevelIgnoreCase("WARNING"));
+
+        summary.put("ERROR",
+                logEntryRepository.countByLevelIgnoreCase("ERROR"));
+
+        summary.put("CRITICAL",
+                logEntryRepository.countByLevelIgnoreCase("CRITICAL"));
+
+        return summary;
     }
 }

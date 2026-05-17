@@ -10,6 +10,8 @@ public interface LogEntryRepository extends JpaRepository<LogEntry, Long> {
 
     long countByLevel(String level);
 
+    long countByLevelIgnoreCase(String level);
+
     @Query("SELECT l FROM LogEntry l ORDER BY l.timestamp DESC NULLS LAST")
     List<LogEntry> findAllByOrderByTimestampDesc();
 }
