@@ -74,6 +74,21 @@ public class LogController {
 
     @GetMapping("/alerts")
     public List<LogEntry> getSuspiciousLogs() {
-        return logEntryRepository.findByMessageContainingIgnoreCaseOrderByTimestampDesc("unauthorized");
+        List<String> keywords = List.of(
+                "unauthorized",
+                "failed",
+                "attack",
+                "breach",
+                "suspicious",
+                "timeout"
+        );
+
+        return logEntryRepository.findAllByOrderByTimestampDesc()
+                .stream()
+                .filter(log -> log.getMessage() != null &&
+                        keywords.stream().anyMatch(keyword ->
+                                log.getMessage().toLowerCase().contains(keyword)
+                        ))
+                .toList();
     }
 }
