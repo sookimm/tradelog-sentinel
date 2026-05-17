@@ -30,7 +30,7 @@ public class LogController {
 
     @GetMapping
     public List<LogEntry> getAllLogs() {
-        return logEntryRepository.findAll();
+        return logEntryRepository.findAllByOrderByTimestampDesc();
     }
 
     @GetMapping("/risk")

@@ -2,6 +2,8 @@ package com.sooyeon.tradelogsentinel.entity;
 
 import jakarta.persistence.*;
 
+import java.time.LocalDateTime;
+
 @Entity
 @Table(name = "logs")
 public class LogEntry {
@@ -14,12 +16,15 @@ public class LogEntry {
 
     private String message;
 
+    private LocalDateTime timestamp;
+
     public LogEntry() {
     }
 
     public LogEntry(String level, String message) {
         this.level = level;
         this.message = message;
+        this.timestamp = LocalDateTime.now();
     }
 
     public Long getId() {
@@ -32,6 +37,10 @@ public class LogEntry {
 
     public String getMessage() {
         return message;
+    }
+
+    public LocalDateTime getTimestamp() {
+        return timestamp;
     }
 
     public void setLevel(String level) {
