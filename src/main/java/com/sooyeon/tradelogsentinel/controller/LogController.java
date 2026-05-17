@@ -4,6 +4,7 @@ import com.sooyeon.tradelogsentinel.dto.CreateLogRequest;
 import com.sooyeon.tradelogsentinel.entity.LogEntry;
 import com.sooyeon.tradelogsentinel.repository.LogEntryRepository;
 import org.springframework.web.bind.annotation.*;
+import com.sooyeon.tradelogsentinel.dto.RiskSummaryResponse;
 
 import java.util.List;
 
@@ -30,5 +31,22 @@ public class LogController {
     @GetMapping
     public List<LogEntry> getAllLogs() {
         return logEntryRepository.findAll();
+    }
+
+    @GetMapping("/risk")
+    public RiskSummaryResponse getRiskSummary() {
+        long errorCount = logEntryRepository.countByLevel("ERROR");
+
+        String riskLevel;
+
+        if (errorCount >= 3) {
+            riskLevel = "HIGH";
+        } else if (errorCount >= 1) {
+            riskLevel = "MEDIUM";
+        } else {
+            riskLevel = "LOW";
+        }
+
+        return new RiskSummaryResponse(riskLevel, errorCount);
     }
 }
