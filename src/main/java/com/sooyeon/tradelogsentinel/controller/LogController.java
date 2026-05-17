@@ -91,4 +91,39 @@ public class LogController {
                         ))
                 .toList();
     }
+
+    @GetMapping("/severity-score")
+    public Map<String, Integer> getSeverityScore() {
+
+        List<LogEntry> logs = logEntryRepository.findAll();
+
+        int totalScore = 0;
+
+        for (LogEntry log : logs) {
+
+            switch (log.getLevel().toUpperCase()) {
+
+                case "INFO":
+                    totalScore += 1;
+                    break;
+
+                case "WARNING":
+                    totalScore += 2;
+                    break;
+
+                case "ERROR":
+                    totalScore += 3;
+                    break;
+
+                case "CRITICAL":
+                    totalScore += 4;
+                    break;
+            }
+        }
+
+        Map<String, Integer> response = new HashMap<>();
+        response.put("totalSeverityScore", totalScore);
+
+        return response;
+    }
 }
