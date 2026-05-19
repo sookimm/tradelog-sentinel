@@ -1,0 +1,5 @@
+INFO,System startup completed
+WARNING,Response time exceeded threshold
+ERROR,Failed order validation
+CRITICAL,Unauthorized trading request detected
+ERROR,Database timeout detected

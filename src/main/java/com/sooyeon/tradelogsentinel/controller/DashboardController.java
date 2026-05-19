@@ -5,6 +5,10 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+
 @Controller
 public class DashboardController {
 
@@ -22,5 +26,11 @@ public class DashboardController {
         model.addAttribute("logs", logService.getAllLogs());
 
         return "dashboard";
+    }
+
+    @PostMapping("/dashboard/upload")
+    public String uploadLogsFromDashboard(@RequestParam("file") MultipartFile file) throws Exception {
+        logService.uploadLogs(file);
+        return "redirect:/dashboard";
     }
 }
